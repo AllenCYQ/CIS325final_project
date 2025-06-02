@@ -195,17 +195,39 @@ docker-build:
 docker-run:
     sudo docker run -p 5000:5000 -itd sentiment-api
 
+# == TEST ==
+
 # Test model expecting positive.
-[group('docker')]
+[group('test')]
 [linux]
 docker-test-positive:
     curl -X POST http://localhost:5000/predict -H "Content-Type: application/json" -d '{"review": "I absolutely love this product! It works perfectly."}'
 
 # Test model expecting negative.
-[group('docker')]
+[group('test')]
 [linux]
 docker-test-negative:
     curl -X POST http://localhost:5000/predict -H "Content-Type: application/json" -d '{"review": "I absolutely hate this product! It does not work."}'
+
+# Performing all pytests.
+[group('test')]
+pytest:
+    pytest
+
+# Pytest API.
+[group('test')]
+pytest-api:
+    pytest ./tests/test_api.py
+
+# Pytest data.
+[group('test')]
+pytest-data:
+    pytest ./tests/test_data.py
+
+# Pytest model.
+[group('test')]
+pytest-model:
+    pytest ./tests/test_model.py
 
 # == CLEAN ==
 
