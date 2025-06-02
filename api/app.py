@@ -1,13 +1,14 @@
 from flask import Flask, request, jsonify
 import pandas as pd
 import joblib
+import os
 
 # Initializing Flask app.
 app = Flask(__name__)
 
 # Load vectorizer and model.
-vectorizer = joblib.load("mlflow_model/vectorizer.pkl")
-model = joblib.load("mlflow_model/model.pkl")
+vectorizer = joblib.load(os.path.join("mlflow_model", "vectorizer.pkl"))
+model = joblib.load(os.path.join("mlflow_model", "model.pkl"))
 
 
 # Base URI route. This route will be used to test the API.
