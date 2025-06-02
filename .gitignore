@@ -1,0 +1,7 @@
+# ignore all . files and . folders.
+.*
+
+__pycache__
+*.bak
+
+mlruns
