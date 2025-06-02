@@ -181,6 +181,32 @@ install-to-jupyter:
 install-to-jupyter:
     {{VENV_PATH}}/bin/python -m ipykernel install --user --name="{{VENV_NAME}}"
 
+# == DOCKER ==
+
+# Build container using Dockerfile.
+[group('docker')]
+[linux]
+docker-build:
+    sudo docker build -t sentiment-api ./api/
+
+# Run Docker container.
+[group('docker')]
+[linux]
+docker-run:
+    sudo docker run -p 5000:5000 -itd sentiment-api
+
+# Test model expecting positive.
+[group('docker')]
+[linux]
+docker-test-positive:
+    curl -X POST http://localhost:5000/predict -H "Content-Type: application/json" -d '{"review": "I absolutely love this product! It works perfectly."}'
+
+# Test model expecting negative.
+[group('docker')]
+[linux]
+docker-test-negative:
+    curl -X POST http://localhost:5000/predict -H "Content-Type: application/json" -d '{"review": "I absolutely hate this product! It does not work."}'
+
 # == CLEAN ==
 
 # Remove python virtual environment.
@@ -195,3 +221,9 @@ clean-venv:
 [linux]
 clean-venv:
     rm -rf "{{VENV_PATH}}"
+
+# Remove all Docker containers in environment.
+[group('clean')]
+[linux]
+clean-docker:
+    docker ps -aq | xargs docker stop | xargs docker rm
