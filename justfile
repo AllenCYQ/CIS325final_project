@@ -46,13 +46,13 @@ install-deps:
 install-deps:
     # Creating with Python 3.11 for Tensorflow dependency.
     # https://stackoverflow.com/a/79031520
-    python3.11 -m venv /opt/{{VENV_NAME}}
+    python3.11 -m venv {{VENV_PATH}}
 
     # Upgrading pip.
-    /opt/{{VENV_NAME}}/bin/pip install -U pip --require-virtualenv
+    {{VENV_PATH}}/bin/pip install -U pip --require-virtualenv
 
     # Installing python requirements.
-    /opt/{{VENV_NAME}}/bin/pip install -r requirements-{{os()}}.txt --require-virtualenv
+    {{VENV_PATH}}/bin/pip install -r requirements-{{os()}}.txt --require-virtualenv
 
 # Install python environment.
 [group('setup')]
