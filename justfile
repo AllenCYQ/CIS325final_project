@@ -151,7 +151,7 @@ mlflow:
 
 # Return MLFlow server path for convenience.
 [group('helpers')]
-[unix]
+[linux]
 mlflow:
     echo "{{VENV_PATH}}/bin/python -m mlflow server --backend-store-uri file:///tmp/mlflow/localserver"
 
@@ -177,7 +177,7 @@ install-to-jupyter:
 
 # Make virtual environment available to Jupyter notebook.
 [group('jupyter')]
-[unix]
+[linux]
 install-to-jupyter:
     {{VENV_PATH}}/bin/python -m ipykernel install --user --name="{{VENV_NAME}}"
 
@@ -192,6 +192,6 @@ clean-venv:
 
 # Remove python virtual environment.
 [group('clean')]
-[unix]
+[linux]
 clean-venv:
     rm -rf "{{VENV_PATH}}"
