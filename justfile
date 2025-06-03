@@ -197,27 +197,44 @@ docker-run:
 
 # == TEST ==
 
-# Test model expecting positive.
+# Test local model expecting positive.
 [group('test')]
 [linux]
 docker-test-positive:
     curl -X POST http://localhost:5000/predict -H "Content-Type: application/json" -d '{"review": "I absolutely love this product! It works perfectly."}'
 
-# Test model expecting negative.
+# Test local model expecting negative.
 [group('test')]
 [linux]
 docker-test-negative:
     curl -X POST http://localhost:5000/predict -H "Content-Type: application/json" -d '{"review": "I absolutely hate this product! It does not work."}'
+
+# Test cloud model expecting positive.
+[group('test')]
+[linux]
+cloud-test-positive:
+    curl -X POST https://sentiment-api-app.azurewebsites.net/predict -H "Content-Type: application/json" -d '{"review": "I absolutely love this product! It works perfectly."}'
+
+# Test cloud model expecting negative.
+[group('test')]
+[linux]
+cloud-test-negative:
+    curl -X POST https://sentiment-api-app.azurewebsites.net/predict -H "Content-Type: application/json" -d '{"review": "I absolutely hate this product! It does not work."}'
 
 # Performing all pytests.
 [group('test')]
 pytest:
     pytest
 
-# Pytest API.
+# Pytest local API.
 [group('test')]
-pytest-api:
-    pytest ./tests/test_api.py
+pytest-local-api:
+    pytest ./tests/test_local_api.py
+
+# Pytest cloud API.
+[group('test')]
+pytest-cloud-api:
+    pytest ./tests/test_cloud_api.py
 
 # Pytest data.
 [group('test')]
